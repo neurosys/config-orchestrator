@@ -1,0 +1,10 @@
+#bar {
+#        position bottom
+#        # output HDMI-1
+#        # dock|hide|invisible
+#        mode hide
+#        font pango: Liberation Mono for Powerline 12
+#        separator_symbol "|"
+#        workspace_buttons no
+#        status_command i3blocks -c ~/.config/i3blocks/config2
+#}

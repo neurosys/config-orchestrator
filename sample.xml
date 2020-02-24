@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+    <configFile id="i3config" destination="output/i3config">
+        <part type="file" source="00_description.txt" index="0" />
+        <part type="file" source="10_main-part_workspaces.txt" index="1" />
+        <part type="file" source="20_i3blocks_top.txt" index="2" />
+        <part type="file" source="30_i3blocks_bottom.txt" index="3" />
+        <part type="file" source="40_execute_commands.txt" index="4" />
+
+        <!--
+        <part type=file source="filename.txt" index="0" />
+            <replace src="" dst="" />
+        </part>
+
+        <part type="inline">
+            Command comment or value to inject as a standalone part, provided inline in the xml
+        </part>
+        
+            -->
+
+    </configFile>
+
+    <configFile id="xinitrc" destination="~/.xinitrc">
+    </configFile>
+
+    <configFile id="polybar" destination="~/.polybar.conf">
+    </configFile>
+
+    <configFile id="conky" destination="~/.conky.conf">
+    </configFile>
+
+    <configFile id="i3blocks" destination="~/.i3blocks.conf">
+    </configFile>
+
+</configuration>
