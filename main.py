@@ -11,6 +11,7 @@ import xml.etree.ElementTree as ET
 #    * do not overwrite
 
 isDebug = False
+LVL1_TAG = "configuration"
 
 def dbg(msg):
     global isDebug
@@ -88,6 +89,20 @@ class Params():
             print("ERROR: No config file specified")
             self.showHelp = True
 
+class FilePart():
+    def __init__(self):
+        self.sourceFile = None
+        self.orderIndex = None
+        self.oldNeedle = None
+        self.newNeedle = None
+
+class ConfigFile():
+    def __init__(self):
+        self.id = None
+        self.destination = None
+        self.fileParts = None
+        self.inlineValues = None
+
 class XmlParser():
     def __init__(self, pathToXml):
         self.pathToXml = pathToXml
@@ -95,14 +110,30 @@ class XmlParser():
         self.root = self.tree.getroot()
 
     def parse(self):
+        if self.root.tag != LVL1_TAG:
+            print("ERROR: Invalid config, can't find " + LVL1_TAG)
+            dbg("XmlParser: Parse() instead of " + LVL1_TAG + " found self.root.tag = '" + self.root.tag + "'")
+            sys.exit(1)
+        for child in self.root:
+            self.parseFileStructure(child)
+
+    def parseFileStructure(self, node):
+        self.printNode(node)
+        for child in node:
+            self.printNode(child)
+
+
+    def test(self):
         self.printNode(self.root)
         for child in self.root:
             self.printNode(child)
 
     def printNode(self, node):
-        print("<" + node.tag + ">")
+        textReprOfNode = ""
+        textReprOfNode += "<" + node.tag + " " 
         for k in node.attrib:
-            print("\t" + k + "=" + node.attrib[k])
+            textReprOfNode += k + "=\"" + node.attrib[k] + "\" "
+        print(textReprOfNode + "/>")
 
 class FileBuilder():
     def __init__(self, pathToConfig):
@@ -118,4 +149,5 @@ if __name__ == "__main__":
         sys.exit(0)
 
     parser = XmlParser(config.pathToConfigFile)
+    #parser.test()
     parser.parse()

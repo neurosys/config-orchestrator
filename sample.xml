@@ -9,7 +9,7 @@
         <part type="file" source="40_execute_commands.txt" index="4" />
 
         <!--
-        <part type=file source="filename.txt" index="0" />
+        <part type="file" source="filename.txt" index="0" />
             <replace src="" dst="" />
         </part>
 
