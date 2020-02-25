@@ -8,16 +8,23 @@
         <part type="file" source="30_i3blocks_bottom.txt" index="3" />
         <part type="file" source="40_execute_commands.txt" index="4" />
 
-        <!--
-        <part type="file" source="filename.txt" index="0" />
-            <replace src="" dst="" />
+        <part type="file" source="filename.txt" index="5" >
+            <replace old="" new="" />
+            <replace old="" >
+                cmd which output should be injected instead of the text identified by "old"
+            </replace>
+            <execute>
+                cmd which output should be just executed, and do nothing with the result
+            </execute>
         </part>
 
-        <part type="inline">
+        <part type="inline" index="6">
             Command comment or value to inject as a standalone part, provided inline in the xml
         </part>
-        
-            -->
+
+        <part type="outputOf" index="7">
+            echo "this is some output that would be considered as a part"
+        </part>
 
     </configFile>
 
