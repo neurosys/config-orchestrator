@@ -9,9 +9,18 @@ import xml.etree.ElementTree as ET
 #    * list IDs from config file
 #    * backup if exists
 #    * do not overwrite
+#    * generate a sample xml with few examples and comments
 
 isDebug = False
 LVL1_TAG = "configuration"
+LVL2_TAG = "configFile"
+LVL2_ATTRIB_ID = "id"
+LVL2_ATTRIB_DST = "destination"
+
+LVL3_TAG = "part"
+LVL3_ATTRIB_TYPE = "type"
+LVL3_ATTRIB_SOURCE = "source"
+LVL3_ATTRIB_INDEX = "index"
 
 def dbg(msg):
     global isDebug
@@ -96,6 +105,13 @@ class FilePart():
         self.oldNeedle = None
         self.newNeedle = None
 
+class FilePartition():
+    def __init__(self, idx, source, partType):
+        self.source = source
+        self.idx = index
+        self.partType = partType
+        pass
+
 class ConfigFile():
     def __init__(self):
         self.id = None
@@ -110,17 +126,44 @@ class XmlParser():
         self.root = self.tree.getroot()
 
     def parse(self):
-        if self.root.tag != LVL1_TAG:
+        if self.root.tag != LVL1_TAG: # <configuration>
             print("ERROR: Invalid config, can't find " + LVL1_TAG)
             dbg("XmlParser: Parse() instead of " + LVL1_TAG + " found self.root.tag = '" + self.root.tag + "'")
             sys.exit(1)
         for child in self.root:
+            if child.tag != LVL2_TAG: # <configFile>
+                print("ERROR: Invalid config, can't find " + LVL2_TAG)
+                dbg("ERROR: Invalid config, expected tag " + LVL2_TAG + " but found '" + child.tag + "'")
+                sys.exit(1)
             self.parseFileStructure(child)
 
     def parseFileStructure(self, node):
-        self.printNode(node)
+        #self.printNode(node)
+        if LVL2_ATTRIB_ID in node.attrib.keys():
+            idAttr = node.attrib[LVL2_ATTRIB_ID]
+        if LVL2_ATTRIB_DST in node.attrib.keys():
+            dstAttr = node.attrib[LVL2_ATTRIB_DST]
+        dbg(LVL2_TAG + " id = " + idAttr + " dst = " + dstAttr)
+
         for child in node:
-            self.printNode(child)
+            #self.printNode(child)
+            if child.tag != LVL3_TAG: # <part>
+                print("ERROR: Invalid config, can't find " + LVL3_TAG)
+                dbg("ERROR: Invalid config, expected tag " + LVL3_TAG + " but found '" + child.tag + "'")
+                sys.exit(1)
+            if LVL3_ATTRIB_TYPE in child.attrib.keys():
+                typeAttr = child.attrib[LVL3_ATTRIB_TYPE]
+            if LVL3_ATTRIB_SOURCE in child.attrib.keys():
+                srcAttr = child.attrib[LVL3_ATTRIB_SOURCE]
+            if LVL3_ATTRIB_INDEX in child.attrib.keys():
+                idxAttr = child.attrib[LVL3_ATTRIB_INDEX]
+            dbg("\ttype = " + typeAttr)
+            dbg("\tsrc = " + srcAttr)
+            dbg("\tidx = " + idxAttr)
+            dbg("")
+
+
+
 
 
     def test(self):
